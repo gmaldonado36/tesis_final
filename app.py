@@ -1,5 +1,5 @@
 import streamlit as st
-from pages import bienvenida, instrucciones, fase1, scale, end
+from pages import bienvenida, instrucciones, fase1, scale, end, prueba
 from services.state_manager import init_state
 
 st.set_page_config(layout="centered")
@@ -13,6 +13,8 @@ if fase == "bienvenida":
     bienvenida.run()
 elif fase == "instrucciones":
     instrucciones.run()
+elif fase == "prueba":
+    prueba.run()
 elif fase == "fase1":
     fase1.run()
 elif fase == "scale":

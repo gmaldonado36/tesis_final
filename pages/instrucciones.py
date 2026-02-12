@@ -10,7 +10,7 @@ def run():
     st.write("Después de observar cada imagen, aparecerá una escala SAM (Self-Assessment Manikin). En esta escala deberás indicar del 1 al 9 qué tanta intensidad de la emoción te generó ante la imagen presentada, donde 1 representa una intensidad emocional muy baja y 9 una intensidad emocional muy alta.")
 
     if st.button("Continuar", type="primary"):
-        st.session_state.fase = "fase1"
+        st.session_state.fase = "prueba"
         st.rerun()
 
 
