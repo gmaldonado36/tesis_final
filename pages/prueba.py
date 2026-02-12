@@ -7,5 +7,5 @@ def run():
     st.write("Cuando estés listo(a), haz clic en “Continuar” para comenzar el bloque de prueba.")
 
     if st.button("Continuar", type="primary"):
-        st.session_state.fase = "fase1"
+        st.session_state.fase = "test"
         st.rerun()
