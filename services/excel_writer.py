@@ -4,28 +4,38 @@ import gspread
 from google.oauth2.service_account import Credentials
 import uuid
 
+SHEET_NAME = "DataTesis"
 
 
+# ---------- CONEXIÓN ----------
+@st.cache_resource
+def connect_to_sheets():
+    creds = Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"],
+        scopes=[
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive",
+        ],
+    )
+    return gspread.authorize(creds)
+
+
+# ---------- WRITE ----------
 def write_to_google_sheets():
     try:
-        # -------- DEBUG tamaños --------
         st.write("DEBUG tamaños →")
         st.write("imagenes:", len(st.session_state.get("imagenes", [])))
         st.write("tiempos:", len(st.session_state.get("tiempos", [])))
         st.write("escalas:", len(st.session_state.get("escalas", [])))
 
-        # -------- Validación --------
         if "imagenes" not in st.session_state or len(st.session_state.imagenes) == 0:
             st.error("imagenes vacío → no se guarda")
             return
 
         if "run_id" not in st.session_state:
-            import uuid
             st.session_state.run_id = str(uuid.uuid4())
 
         run_id = st.session_state.run_id
-
-        import pandas as pd
 
         df = pd.DataFrame({
             "run_id": [run_id] * len(st.session_state.imagenes),
@@ -38,7 +48,6 @@ def write_to_google_sheets():
         st.write("DEBUG dataframe ↓")
         st.write(df)
 
-        # -------- Conexión --------
         client = connect_to_sheets()
         sheet = client.open(SHEET_NAME).sheet1
         st.write("DEBUG conectado a Google Sheets")
@@ -51,7 +60,7 @@ def write_to_google_sheets():
 
         sheet.append_rows(rows, value_input_option="USER_ENTERED")
 
-        st.success(f"OK → {len(rows)} filas escritas en Google Sheets")
+        st.success(f"OK → {len(rows)} filas escritas")
 
     except Exception as e:
         st.error("ERROR REAL:")
