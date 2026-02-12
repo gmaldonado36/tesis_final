@@ -4,7 +4,11 @@ import gspread
 from google.oauth2.service_account import Credentials
 import uuid
 
-SHEET_NAME = "DataTesis"
+# 🔑 PEGA AQUÍ TU SPREADSHEET ID
+SPREADSHEET_ID = "1sYqw7dqVtD0eh3oHMsAz9mo2EDftWfgtEKv2FujCEHA"
+
+# (opcional) nombre de la pestaña exacta
+WORKSHEET_NAME = "Sheet1"
 
 
 # ---------- CONEXIÓN ----------
@@ -49,8 +53,14 @@ def write_to_google_sheets():
         st.write(df)
 
         client = connect_to_sheets()
-        sheet = client.open(SHEET_NAME).sheet1
-        st.write("DEBUG conectado a Google Sheets")
+
+        # 🔥 ABRE POR ID (NO POR NOMBRE)
+        spreadsheet = client.open_by_key(SPREADSHEET_ID)
+        st.write("Spreadsheet conectado:", spreadsheet.title)
+
+        # 🔥 ABRE LA PESTAÑA EXACTA
+        sheet = spreadsheet.worksheet(WORKSHEET_NAME)
+        st.write("Escribiendo en pestaña:", sheet.title)
 
         rows = df.astype(str).values.tolist()
 
