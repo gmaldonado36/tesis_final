@@ -10,9 +10,4 @@ def run():
     excel = write_to_google_sheets()
 
 
-    st.download_button(
-        label="Descargar resultados",
-        data=excel,
-        file_name="resultados.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
+
