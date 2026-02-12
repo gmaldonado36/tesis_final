@@ -1,12 +1,13 @@
 import streamlit as st
 
 def run():
-    st.title("Instrucciones")
+    st.title("Bienvenida")
 
-    st.write("Lee cuidadosamente estas instrucciones antes de comenzar.")
-    st.write("Verás una serie de imágenes y luego deberás calificarlas.")
+    st.write("Bienvenidos a la prueba.")
+    st.write("Gracias por participar en este estudio.")
+    st.write("Cuando estés listo(a), haz clic en “Continuar” para seguir.")
 
-    nombre = st.text_input("Escribe tu nombre")
+    nombre = st.text_input("Por favor escribe tu nombreEscribe tu nombre")
 
     if nombre:
         st.success("Listo para comenzar")
