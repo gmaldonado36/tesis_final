@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
-import time
+import uuid
 
 SHEET_NAME = "DataTesis"
 
@@ -22,12 +22,16 @@ def connect_to_sheets():
 
 # ---------- WRITE ----------
 def write_to_google_sheets():
-    # Evita escribir si faltan datos (muy importante)
+
+    # Validación básica
     if "imagenes" not in st.session_state or len(st.session_state.imagenes) == 0:
         return
 
-    # ID único por ejecución (usuario + tiempo)
-    run_id = f"{st.session_state.nombre}_{int(time.time())}"
+    # 🔒 ID ÚNICO ESTABLE POR SESIÓN
+    if "run_id" not in st.session_state:
+        st.session_state.run_id = str(uuid.uuid4())
+
+    run_id = st.session_state.run_id
 
     data = {
         "run_id": [run_id] * len(st.session_state.imagenes),
@@ -42,10 +46,10 @@ def write_to_google_sheets():
     client = connect_to_sheets()
     sheet = client.open(SHEET_NAME).sheet1
 
-    # Leer run_id ya guardados (columna 1)
+    # 🔍 Leer IDs existentes
     existing_ids = sheet.col_values(1)
 
-    # Si ya existe → NO escribir (evita duplicados)
+    # 🛑 Si ya existe → NO escribir
     if run_id in existing_ids:
         return
 
