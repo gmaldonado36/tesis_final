@@ -6,20 +6,24 @@ def run():
     st.title("Finalizado")
     st.success("Gracias por completar el experimento")
 
-    # Limpia cualquier widget previo (muy importante)
-    st.session_state.pop("slider", None)
+    if "saved_to_sheets" not in st.session_state:
+        st.session_state.saved_to_sheets = False
 
-    # Botón explícito de finalización
-    if st.button("Finalizar experimento", type="primary"):
+    if not st.session_state.saved_to_sheets:
 
-        # Evita doble ejecución
-        if not st.session_state.get("saved_to_sheets", False):
-            try:
-                write_to_google_sheets()
-                st.session_state.saved_to_sheets = True
-                st.success("Resultados guardados correctamente ✅")
-            except Exception as e:
-                st.error("Error guardando resultados")
-                st.exception(e)
+        if st.button("Finalizar experimento", type="primary"):
 
-        st.stop()  # corta cualquier rerun
+            with st.spinner("Guardando resultados..."):
+
+                try:
+                    write_to_google_sheets()
+                    st.session_state.saved_to_sheets = True
+                    st.success("Resultados guardados correctamente ✅")
+                    st.rerun()
+
+                except Exception as e:
+                    st.error("Error guardando resultados")
+                    st.exception(e)
+
+    else:
+        st.info("Resultados ya guardados 👍")
