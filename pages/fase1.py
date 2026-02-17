@@ -4,6 +4,7 @@ from services.timer import start_timer, stop_timer
 from components.progress import show_progress
 import os
 import time
+from PIL import Image
 from config import FASE1_FOLDER
 
 
@@ -33,7 +34,12 @@ def run():
 
     # Mostrar progreso y la imagen
     show_progress()
-    st.image(img_path, use_container_width=True)
+
+    img = Image.open(img_path)
+    img.thumbnail((900, 900))    # ← tamaño que quieras (ancho, alto)
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image(img, use_container_width=True)
 
     # Botón para avanzar
     if st.button("Avanzar"):

@@ -5,7 +5,7 @@ def run():
 
     st.write("Bienvenidos a la prueba.")
     st.write("Gracias por participar en este estudio.")
-    st.write("Cuando estés listo(a), haz clic en “Avanzar” para seguir.")
+    st.write("Cuando estés **listo(a)**, haz clic en **“Avanzar”** para seguir.")
 
     nombre = st.text_input("Por favor escribe tu nombre")
 

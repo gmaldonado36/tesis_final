@@ -3,6 +3,7 @@ from services.image_loader import load_random_images
 from components.progress import show_progress
 import os
 import time
+from PIL import Image
 from config import PRUEBA_FOLDER
 
 
@@ -27,11 +28,16 @@ def run():
     img_name = st.session_state.imagenes_test[idx]
     img_path = os.path.join(PRUEBA_FOLDER, img_name)
 
-    show_progress()
+    #show_progress()
 
-    st.image(img_path, use_container_width=True)
+    img = Image.open(img_path)
+    img.thumbnail((900, 900))    # ← tamaño que quieras (ancho, alto)
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image(img, use_container_width=True)
+    #st.image(img, use_container_width=False)
 
-    if st.button("Avanzar a escala"):
+    if st.button("Avanzar"):
         st.session_state.start_time_test = time.time()
         st.session_state.current_image_test = img_name
         st.session_state.origen_scale = "test"  # <-- CLAVE: marca el origen

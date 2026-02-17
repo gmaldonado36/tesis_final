@@ -4,6 +4,7 @@ from config import ESCALA_IMAGE
 
 def run():
     st.title("Califica la imagen")
+    st.write("¿Qué tanta emoción te generó la imagen que acabas de ver?")
 
     st.image(ESCALA_IMAGE, use_container_width=True)
 
