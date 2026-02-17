@@ -43,3 +43,4 @@ def run():
         st.session_state.origen_scale = "test"  # <-- CLAVE: marca el origen
         st.session_state.fase = "scale"
         st.rerun()
+  
